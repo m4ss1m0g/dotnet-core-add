@@ -3,7 +3,6 @@
 import * as vscode from "vscode";
 import AddClass from "./commands/add-class";
 import AddInterface from './commands/add-interface';
-import Configuration from './config/configuration';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -20,10 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
     let addClassCmd = vscode.commands.registerCommand(
         "dotnet-core-add.addClass",
         async () => {
-            // await addClass.runAsync();
-
-            var t = new Configuration();
-            vscode.window.showInformationMessage(t.alwaysCapitalizeFirstLetter().toString());
+            await addClass.runAsync();
         }
     );
 
