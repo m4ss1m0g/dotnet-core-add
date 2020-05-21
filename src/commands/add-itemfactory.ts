@@ -14,14 +14,16 @@ import Configuration from "../config/configuration";
 export default abstract class AddItemFactory {
     public async runAsync(): Promise<void> {
         // Show a dialog for saving the new class
-        const saveFile = await vscode.window.showSaveDialog({
-            filters: { CSharp: ["cs"] },
-        });
+        // const document = await vscode.window.showSaveDialog({
+        //     filters: { CSharp: ["cs"] },
+        // });
+
+        const editor = vscode.window.activeTextEditor;
 
         // If the file is saved
-        if (saveFile) {
+        if (editor) {
             // get: full path and filename
-            const fileName = saveFile.fsPath;
+            const fileName = editor.document.fileName;
             let itemName = path.basename(fileName, path.extname(fileName));
 
             // Capitalize if necessary
@@ -39,7 +41,7 @@ export default abstract class AddItemFactory {
             const content = this.generateCode(namespace, itemName);
 
             // Write to previus saved file
-            await this.writeToFileAsync(saveFile, content);
+            await this.writeToFileAsync(editor.document.uri, content);
         } else {
             vscode.window.showInformationMessage("Command Aborted");
         }

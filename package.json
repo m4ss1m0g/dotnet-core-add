@@ -1,10 +1,10 @@
 {
     "name": "dotnet-core-add",
-    "displayName": "dotnet-core-add",
+    "displayName": "DotNet Core Add",
     "description": "Add commands for creating new csharp files",
     "publisher": "m4ss1m0",
     "license": "GPL-3.0-or-later",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "engines": {
         "vscode": "^1.45.0"
     },
@@ -56,12 +56,12 @@
         "@typescript-eslint/eslint-plugin": "^2.30.0",
         "@typescript-eslint/parser": "^2.30.0",
         "eslint": "^6.8.0",
-        "glob": "^7.1.6",
         "mocha": "^7.1.2",
         "typescript": "^3.8.3",
         "vscode-test": "^1.3.0"
     },
     "dependencies": {
+        "glob": "^7.1.6",
         "string-sanitizer": "^1.1.1"
     }
 }

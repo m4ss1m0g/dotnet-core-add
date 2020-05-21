@@ -1,4 +1,4 @@
-# dotnet-core-add README
+# DotNet Core Add README
 
 Add an _Add Item_ command to VSCODE.
 The extension add the correct namespace, calculating the folder's path up to the `.csproj` file.
