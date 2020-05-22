@@ -41,4 +41,10 @@
  * [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VSCode extension marketplace.
  * Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
 
-https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+``` bash
+$ cd myExtension
+$ vsce package
+# myExtension.vsix generated
+$ vsce publish
+# <publisherID>.myExtension published to VS Code MarketPlace
+```

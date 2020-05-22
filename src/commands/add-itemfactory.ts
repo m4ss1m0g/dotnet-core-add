@@ -13,10 +13,6 @@ import Configuration from "../config/configuration";
  */
 export default abstract class AddItemFactory {
     public async runAsync(): Promise<void> {
-        // Show a dialog for saving the new class
-        // const document = await vscode.window.showSaveDialog({
-        //     filters: { CSharp: ["cs"] },
-        // });
 
         const editor = vscode.window.activeTextEditor;
 
@@ -29,7 +25,7 @@ export default abstract class AddItemFactory {
             // Capitalize if necessary
             const cfg = new Configuration();
             if (cfg.alwaysCapitalizeFirstLetter) {
-                itemName = itemName[0].toUpperCase();
+                itemName = itemName[0].toUpperCase() + itemName.slice(1);
             }
 
             // Calculate the namespace, looking for csproj

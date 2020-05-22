@@ -1,6 +1,5 @@
-# DotNet Core Add README
+# DotNet Core Add
 
-Add an _Add Item_ command to VSCODE.
 The extension add the correct namespace, calculating the folder's path up to the `.csproj` file.
 
 ## Features
@@ -10,11 +9,7 @@ Whit this extension you can
 - Add new class
 - Add new interface
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![Demo](img\demo.gif)
 
 ## Extension Settings
 

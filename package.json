@@ -1,15 +1,27 @@
 {
     "name": "dotnet-core-add",
     "displayName": "DotNet Core Add",
-    "description": "Add commands for creating new csharp files",
+    "description": "Add commands for creating Class and Interface on C#",
     "publisher": "m4ss1m0",
     "license": "GPL-3.0-or-later",
-    "version": "0.0.2",
+    "version": "0.0.1",
     "engines": {
         "vscode": "^1.45.0"
     },
+    "icon": "img/solidcube.png",
     "categories": [
-        "Other"
+        "Programming Languages",
+        "Snippets"
+    ],
+    "keywords": [
+        "C#",
+        "CSharp",
+        "Autocomplete",
+        "Class",
+        "Interface",
+        "Namespace",
+        ".NET",
+        ".NET Core"
     ],
     "activationEvents": [
         "onCommand:dotnet-core-add.addClass",
