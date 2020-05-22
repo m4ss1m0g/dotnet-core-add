@@ -9,7 +9,7 @@ Whit this extension you can
 - Add new class
 - Add new interface
 
-![Demo](img\demo.gif)
+![Demo](img/demo.gif)
 
 ## Extension Settings
 
