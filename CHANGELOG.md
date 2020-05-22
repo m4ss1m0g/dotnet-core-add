@@ -1,9 +1,9 @@
-# Change Log
+# DotNet Core Add Changelog
 
-All notable changes to the "dotnet-core-add" extension will be documented in this file.
+## [0.0.1] - 2020-05-22
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
+### Added
 
 - Initial release
+- Added `Add Class` command
+- Added `Add interface` command

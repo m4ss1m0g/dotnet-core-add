@@ -8,6 +8,10 @@
     "engines": {
         "vscode": "^1.45.0"
     },
+    "repository": {
+        "url": "https://github.com/m4ss1m0g/dotnet-core-add",
+        "type": "git"
+    },
     "icon": "img/solidcube.png",
     "categories": [
         "Programming Languages",
@@ -43,11 +47,11 @@
             {
                 "title": "DotNet Core Add",
                 "properties": {
-                    "dotNetCoreAdd.alwaysCapitalizeFirstLetter":{
-						"type": "boolean",
-						"default": false,
-						"description": "Capitalize the first letter of the item"
-					}
+                    "dotNetCoreAdd.alwaysCapitalizeFirstLetter": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Capitalize the first letter of the item"
+                    }
                 }
             }
         ]
