@@ -4,7 +4,7 @@
     "description": "Add commands for creating Class and Interface on C#",
     "publisher": "m4ss1m0",
     "license": "GPL-3.0-or-later",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "engines": {
         "vscode": "^1.45.0"
     },
@@ -68,11 +68,13 @@
         "@types/glob": "^7.1.1",
         "@types/mocha": "^7.0.2",
         "@types/node": "^13.11.0",
+        "@types/sinon": "^9.0.4",
         "@types/vscode": "^1.45.0",
         "@typescript-eslint/eslint-plugin": "^2.30.0",
         "@typescript-eslint/parser": "^2.30.0",
         "eslint": "^6.8.0",
         "mocha": "^7.1.2",
+        "sinon": "^9.0.2",
         "typescript": "^3.8.3",
         "vscode-test": "^1.3.0"
     },
