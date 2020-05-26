@@ -1,11 +1,9 @@
 import * as glob from "glob";
 import * as path from "path";
-import * as stringSanitizer from "string-sanitizer";
-import * as fs from "fs";
-import NamespaceItem from "./models/namespace-item";
+import IFilesHelpers from './interfaces/ifiles-helpers';
 
 
-export default class FileHelpers {
+export default class FileHelpers implements IFilesHelpers {
     
 
     /**
@@ -17,7 +15,7 @@ export default class FileHelpers {
      * @returns {(Promise<string | undefined>)} The full path if found, otherwise undefined
      * @memberof FileHelpers
      */
-    private async findFiles(
+    private async findFilesAsync(
         filePath: string,
         fileExtension: string
     ): Promise<string | undefined> {
@@ -41,11 +39,11 @@ export default class FileHelpers {
      * @returns {(Promise<string | undefined>)} The full path if file is found, otherwise undefined
      * @memberof FileHelpers
      */
-    public async findFullPath(
+    public async findFullPathAsync(
         filePath: string,
         fileExtension: string
     ): Promise<string | undefined> {
-        let found = await this.findFiles(filePath, fileExtension);
+        let found = await this.findFilesAsync(filePath, fileExtension);
 
         if (found) {
             return found;
@@ -56,7 +54,7 @@ export default class FileHelpers {
                     .slice(0, current.length - 1)
                     .join(path.sep);
 
-                return await this.findFullPath(newfilePath, fileExtension);
+                return await this.findFullPathAsync(newfilePath, fileExtension);
             }
         }
     }

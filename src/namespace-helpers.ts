@@ -1,12 +1,23 @@
-import FileHelpers from "./file-helpers";
-import NamespaceItem from "./models/namespace-item";
-import * as path from "path";
-import * as fs from "fs";
-import * as stringSanitizer from 'string-sanitizer';
+import NamespaceItem from './models/namespace-item';
+import IFilesHelpers from './interfaces/ifiles-helpers';
+import ICsProjFile from './interfaces/icsproj-file';
+import * as path from 'path';
 
-const CSPROJ = "csproj";
+const CSPROJ = 'csproj';
 
-export default class NamespaceHelpers extends FileHelpers {
+export default class NamespaceHelpers {
+    private _fileHelpers: IFilesHelpers;
+
+    private _csProjFile: ICsProjFile;
+
+    /**
+     *
+     */
+    constructor(fileHelpers: IFilesHelpers, csProjFile: ICsProjFile) {
+        this._fileHelpers = fileHelpers;
+        this._csProjFile = csProjFile;
+    }
+
     /**
      * Search the csproj file starting from the folder of specified file name
      *
@@ -14,11 +25,9 @@ export default class NamespaceHelpers extends FileHelpers {
      * @returns {(Promise<string | undefined>)} THe full path of csproj if found otherwise iundefined
      * @memberof FileHelpers
      */
-    public async getCsProjFileFromChildFile(
-        fileName: string
-    ): Promise<string | undefined> {
+    public async getCsProjFileFromChildFileAsync(fileName: string): Promise<string | undefined> {
         const filePath = path.dirname(fileName);
-        return await this.findFullPath(filePath, CSPROJ);
+        return await this._fileHelpers.findFullPathAsync(filePath, CSPROJ);
     }
 
     /**
@@ -28,59 +37,24 @@ export default class NamespaceHelpers extends FileHelpers {
      * @returns {(Promise<string | undefined>)} The namespace if csproj is found, otherwise undefined
      * @memberof FileHelpers
      */
-    public async getNamespaceFromFile(
-        fileName: string
-    ): Promise<string | undefined> {
+    public async getNamespaceFromFileAsync(fileName: string): Promise<string | undefined> {
         // Starting from the file looking on parent folder until reach the root or find the csproj
-        let csProjFullPath = await this.getCsProjFileFromChildFile(fileName);
+        let csProjFullPath = await this.getCsProjFileFromChildFileAsync(fileName);
 
         if (csProjFullPath) {
             // Glob return path separator unix style, on windows system must be converted
             csProjFullPath = path.normalize(csProjFullPath);
 
             // Get the namespace from csproj: csporj name OR xml element
-            let csProjNs = await this.getNamespaceFromCsProj(csProjFullPath);
+            let csProjNs = await this.getNamespaceFromCsProjAsync(csProjFullPath);
 
             // Calculate subfolders namespace
-            let subFoldersNs = this.getSubfoldersNamespace(
-                fileName,
-                csProjFullPath
-            );
+            let subFoldersNs = this.getSubfoldersNamespace(fileName, csProjFullPath);
 
             return this.generateNamespace(subFoldersNs, csProjNs);
         }
 
         return undefined;
-    }
-
-    /**
-     * Try to read the namespace from the csproj xml element
-     * <RootNamespace></RootNamespace>
-     *
-     * @private
-     * @param {string} csprojPath The csProj file path
-     * @returns {(Promise<string | undefined>)} The namespace if found otherwise undefined
-     * @memberof FileHelpers
-     */
-    private async getNamespaceFromCsProjXmlElement(
-        csprojPath: string
-    ): Promise<string | undefined> {
-        return new Promise((resolve, reject) => {
-            fs.readFile(csprojPath, { encoding: "utf8" }, (err, data) => {
-                if (err) {
-                    reject(err);
-                }
-
-                const matches = data
-                    .toString()
-                    .match(/<RootNamespace>([\w.]+)<\/RootNamespace>/);
-
-                if (matches) {
-                    resolve(matches[1]);
-                }
-                resolve(undefined);
-            });
-        });
     }
 
     /**
@@ -94,13 +68,9 @@ export default class NamespaceHelpers extends FileHelpers {
      * @returns {Promise<NamespaceItem>} The Ns item
      * @memberof FileHelpers
      */
-    private async getNamespaceFromCsProj(
-        csProjFullPath: string
-    ): Promise<NamespaceItem> {
+    private async getNamespaceFromCsProjAsync(csProjFullPath: string): Promise<NamespaceItem> {
         // Try to read the namespace from xml element of csproj
-        let csProjNamespace = await this.getNamespaceFromCsProjXmlElement(
-            csProjFullPath
-        );
+        let csProjNamespace = await this._csProjFile.readRootNamespaceAsync(csProjFullPath);
 
         // Csproj namespace not found on xml element, get the file name as namespace
         if (!csProjNamespace) {
@@ -123,21 +93,18 @@ export default class NamespaceHelpers extends FileHelpers {
      * @returns {string} The difference between the csproj and filename path
      * @memberof FileHelpers
      */
-    private getSubfoldersNamespace(
-        fileName: string,
-        csProjFullPath: string
-    ): string {
+    private getSubfoldersNamespace(fileName: string, csProjFullPath: string): string {
         // Split the filename for calculating the remain namespace
         const fileArray = path.dirname(fileName).split(path.sep);
         const csProjArray = csProjFullPath.split(path.sep);
 
         // Get the folders difference between the csproj and file
         // return with space between for sanitization
-        const subfoldersNamespace = fileArray
-            .filter((v) => csProjArray.indexOf(v) === -1)
-            .join(" ");
+        const subfoldersNamespace = fileArray.filter((v) => csProjArray.indexOf(v) === -1);
 
-        return subfoldersNamespace;
+        const sanitized = subfoldersNamespace.map((p) => this.sanitize(p));
+
+        return sanitized.join('.');
     }
 
     /**
@@ -149,20 +116,26 @@ export default class NamespaceHelpers extends FileHelpers {
      * @returns {string} The Full namespace
      * @memberof FileHelpers
      */
-    private generateNamespace(
-        subFoldersNamespace: string,
-        csProjNamespace: NamespaceItem
-    ): string {
-        // Compose & sanitize the calculated namespace
+    private generateNamespace(subFoldersNamespace: string, csProjNamespace: NamespaceItem): string {
+        // Compose the namespace
         if (csProjNamespace.isFromFilePath) {
-            const ns = csProjNamespace.value.replace(/\./g, " ");
-            const rawNamespace = `${ns} ${subFoldersNamespace}`;
-            return stringSanitizer.sanitize.addFullstop(rawNamespace);
+            const cs = this.sanitize(csProjNamespace.value);
+            return `${cs}.${subFoldersNamespace}`;
         } else {
-            const ns = stringSanitizer.sanitize.addFullstop(
-                subFoldersNamespace
-            );
-            return `${csProjNamespace.value}.${ns}`;
+            return `${csProjNamespace.value}.${subFoldersNamespace}`;
         }
+    }
+
+    /**
+     * Sanitize the namespace value
+     *
+     * @private
+     * @param {string} value The value to sanitize
+     * @returns {string} The sanitized value
+     * @memberof NamespaceHelpers
+     */
+    private sanitize(value: string): string {
+        var str2 = value.replace(/[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]/gi, "_");
+        return str2.replace(/ /g, "_");
     }
 }

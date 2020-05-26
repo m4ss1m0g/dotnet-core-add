@@ -2,6 +2,8 @@ import * as vscode from "vscode";
 import * as path from "path";
 import Configuration from "../config/configuration";
 import NamespaceHelpers from "../namespace-helpers";
+import FileHelpers from '../file-helpers';
+import CsProjFile from '../csproj-file';
 
 /**
  * Add a new csharp class with correct namespace
@@ -29,9 +31,9 @@ export default abstract class AddItemFactory {
             }
 
             // Calculate the namespace, looking for csproj
-            var fh = new NamespaceHelpers();
+            var fh = new NamespaceHelpers(new FileHelpers(), new CsProjFile());
             let namespace =
-                (await fh.getNamespaceFromFile(fileName)) || "notfound";
+                (await fh.getNamespaceFromFileAsync(fileName)) || "notfound";
 
             // Generate class code
             const content = this.generateCode(namespace, itemName);
