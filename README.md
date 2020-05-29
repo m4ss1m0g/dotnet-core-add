@@ -21,13 +21,9 @@ This extension contributes the following settings:
 
 None
 
-## Release Notes
+## Release Notes 0.0.2
 
 This is the initial release and provide support only for
 
 - Class
 - Interface
-
-### 0.0.1
-
-Initial release
