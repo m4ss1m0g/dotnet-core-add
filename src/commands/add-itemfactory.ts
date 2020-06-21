@@ -41,7 +41,7 @@ export default abstract class AddItemFactory {
             // Write to previus saved file
             await this.writeToFileAsync(editor.document.uri, content);
         } else {
-            vscode.window.showInformationMessage("Command Aborted");
+            vscode.window.showInformationMessage("You must create a new file first");
         }
     }
 

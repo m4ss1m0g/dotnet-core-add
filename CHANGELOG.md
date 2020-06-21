@@ -1,5 +1,10 @@
 # DotNet Core Add Changelog
 
+## [0.0.3] - 2020-06-21
+
+- Improved the README
+- Improved the error message
+
 ## [0.0.2] - 2020-05-26
 
 ### Refactored
