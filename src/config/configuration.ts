@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
 export default class Configuration {
     private config: vscode.WorkspaceConfiguration;
@@ -7,13 +7,14 @@ export default class Configuration {
      *
      */
     constructor() {
-        this.config = vscode.workspace.getConfiguration("dotNetCoreAdd");
+        this.config = vscode.workspace.getConfiguration('dotNetCoreAdd');
     }
 
     public get alwaysCapitalizeFirstLetter(): boolean {
-        return (
-            this.config.get<boolean>("dotNetCoreAdd.alwaysCapitalizeFirstLetter") ||
-            false
-        );
+        return this.config.get<boolean>('dotNetCoreAdd.alwaysCapitalizeFirstLetter') || false;
+    }
+
+    public get templateFolderPath(): string {
+        return this.config.get<string>('templateFolderPath') || '';
     }
 }
