@@ -13,7 +13,7 @@ import * as vscode from 'vscode';
  * @class AddClass
  */
 export default class AddTemplate extends AddItemFactory {
-    private MAX_FILES = 5;
+    private MAX_FILES = 15;
 
     private templateFile: string | undefined;
 
@@ -37,7 +37,13 @@ export default class AddTemplate extends AddItemFactory {
         return Buffer.from('', 'utf-8');
     }
 
-    public async selectFileAsync(): Promise<void> {
+    /**
+     * Prompt for pickup the template file
+     *
+     * @returns {Promise<boolean>} True if successfully selected and existent file otherwise false
+     * @memberof AddTemplate
+     */
+    public async selectFileAsync(): Promise<boolean> {
         let files: string[] = [];
 
         try {
@@ -55,19 +61,47 @@ export default class AddTemplate extends AddItemFactory {
 
             if (selected) {
                 this.templateFile = path.join(this.getTemplatePath, selected);
-                fs.exists(this.templateFile, async (exist) => {
-                    if (exist) {
-                        await this.runAsync();
-                    } else {
-                        vscode.window.showErrorMessage(`File ${this.templateFile} not found`);
-                    }
-                });
+                const exist = await this.fileExistAsync(this.templateFile);
+                if (!exist) {
+                    vscode.window.showErrorMessage(`File ${this.templateFile} not found`);
+                } else {
+                    return true;
+                }
             }
         } catch (error) {
             vscode.window.showErrorMessage(error.message);
         }
+
+        return false;
     }
 
+    /**
+     * Verify if file exist
+     *
+     * @private
+     * @param {string} filePath The file to verify
+     * @returns {Promise<boolean>} True if file exist, otherwise false
+     * @memberof AddTemplate
+     */
+    private async fileExistAsync(filePath: string): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            try {
+                fs.exists(filePath, (exist) => {
+                    resolve(exist);
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    /**
+     * Read the content of the configured template directory
+     *
+     * @private
+     * @returns {Promise<string[]>} List of files on directory
+     * @memberof AddTemplate
+     */
     private async getFiles(): Promise<string[]> {
         return new Promise((resolve, reject) => {
             fs.exists(this.getTemplatePath, (exist) => {
@@ -88,6 +122,14 @@ export default class AddTemplate extends AddItemFactory {
         });
     }
 
+    /**
+     * Return the template directory full path
+     *
+     * @readonly
+     * @private
+     * @type {string}
+     * @memberof AddTemplate
+     */
     private get getTemplatePath(): string {
         var cfg = new Configuration();
         return path.normalize(cfg.templateFolderPath);

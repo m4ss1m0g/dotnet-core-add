@@ -28,7 +28,10 @@ export function activate(context: vscode.ExtensionContext) {
         'dotnet-core-add.addTemplate',
         async () => {
             const addTemplate = new AddTemplate();
-            await addTemplate.selectFileAsync();
+            const selected = await addTemplate.selectFileAsync();
+            if (selected){
+                await addTemplate.runAsync();
+            }
         }
     );
 
