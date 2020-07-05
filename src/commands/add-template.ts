@@ -50,22 +50,27 @@ export default class AddTemplate extends AddItemFactory {
             files = await this.getFiles();
 
             let selected: string | undefined;
-            if (files.length < this.MAX_FILES) {
-                selected = await vscode.window.showQuickPick(files);
-            } else {
-                let t: vscode.InputBoxOptions = {};
-                t.placeHolder = 'MyTemplate.txt';
-                t.prompt = 'Enter the template file name';
-                selected = await vscode.window.showInputBox(t);
-            }
 
-            if (selected) {
-                this.templateFile = path.join(this.getTemplatePath, selected);
-                const exist = await this.fileExistAsync(this.templateFile);
-                if (!exist) {
-                    vscode.window.showErrorMessage(`File ${this.templateFile} not found`);
+            if (files.length === 0) {
+                vscode.window.showErrorMessage(`No files inside ${this.templateFile}`);
+            } else {
+                if (files.length < this.MAX_FILES) {
+                    selected = await vscode.window.showQuickPick(files);
                 } else {
-                    return true;
+                    let t: vscode.InputBoxOptions = {};
+                    t.placeHolder = 'MyTemplate.txt';
+                    t.prompt = `Enter the template file name existing inside the ${this.getTemplatePath} folder`;
+                    selected = await vscode.window.showInputBox(t);
+                }
+
+                if (selected) {
+                    this.templateFile = path.join(this.getTemplatePath, selected);
+                    const exist = await this.fileExistAsync(this.templateFile);
+                    if (!exist) {
+                        vscode.window.showErrorMessage(`File ${this.templateFile} not found`);
+                    } else {
+                        return true;
+                    }
                 }
             }
         } catch (error) {

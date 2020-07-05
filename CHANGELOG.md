@@ -1,5 +1,10 @@
 # DotNet Core Add Changelog
 
+## [0.1.0] - 2020-07-05
+
+- Added select custom template function
+- Fix `alwaysCapitalizeFirstLetter` error: the setting was not read.
+
 ## [0.0.3] - 2020-06-21
 
 - Improved the README

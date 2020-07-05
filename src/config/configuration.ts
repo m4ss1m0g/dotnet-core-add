@@ -11,7 +11,7 @@ export default class Configuration {
     }
 
     public get alwaysCapitalizeFirstLetter(): boolean {
-        return this.config.get<boolean>('dotNetCoreAdd.alwaysCapitalizeFirstLetter') || false;
+        return this.config.get<boolean>('alwaysCapitalizeFirstLetter') || false;
     }
 
     public get templateFolderPath(): string {

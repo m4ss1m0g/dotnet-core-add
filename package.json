@@ -59,7 +59,7 @@
                     },
                     "dotNetCoreAdd.templateFolderPath": {
                         "type": "string",
-                        "default": "C:/temp",
+                        "default": "",
                         "description": "Template folder"
                     }
                 }                
