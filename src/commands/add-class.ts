@@ -15,7 +15,7 @@ import AddItemFactory from './add-itemfactory';
 export default class AddClass extends AddItemFactory  {
     
     /**
-     * Generate the chsaro class code
+     * Generate the csharp class code
      *
      * @private
      * @param {string} namespace The namespace

@@ -4,7 +4,7 @@
     "description": "Add commands for creating Class and Interface on C#",
     "publisher": "solidcube",
     "license": "GPL-3.0-or-later",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.45.0"
     },
@@ -29,7 +29,8 @@
     ],
     "activationEvents": [
         "onCommand:dotnet-core-add.addClass",
-        "onCommand:dotnet-core-add.addInterface"
+        "onCommand:dotnet-core-add.addInterface",
+        "onCommand:dotnet-core-add.addTemplate"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -41,6 +42,10 @@
             {
                 "command": "dotnet-core-add.addInterface",
                 "title": "CS: Add Interface"
+            },
+            {
+                "command": "dotnet-core-add.addTemplate",
+                "title": "CS: Add Custom Template"
             }
         ],
         "configuration": [
@@ -51,8 +56,13 @@
                         "type": "boolean",
                         "default": false,
                         "description": "Capitalize the first letter of the item"
+                    },
+                    "dotNetCoreAdd.templateFolderPath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Template folder"
                     }
-                }
+                }                
             }
         ]
     },
