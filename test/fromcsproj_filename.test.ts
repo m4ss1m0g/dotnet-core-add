@@ -107,5 +107,27 @@ describe('Namespace from csproj file name', () => {
             const result = await fh.getNamespaceFromFileAsync(fileName);
             expect(result).toBe('customer_portal.controllers');
         });
+
+        test('Should return correct csproj namespace with cdproj on same folder of source file', async () => {
+            const csproj = 'd:\\developz\\customer\\project.csproj';
+            const fileName = 'd:\\developz\\customer\\foo.cs';
+
+            const ifile: IFilesHelpers = {
+                findFullPathAsync: jest.fn(() => {
+                    return Promise.resolve(csproj);
+                }),
+            };
+
+            const icsproj: ICsProjFile = {
+                readRootNamespaceAsync: jest.fn(() => {
+                    return Promise.resolve(undefined);
+                }),
+            };
+
+            var fh = new NamespaceHelpers(ifile, icsproj);
+
+            const result = await fh.getNamespaceFromFileAsync(fileName);
+            expect(result).toBe('project');
+        });
     });
 });

@@ -45,7 +45,7 @@ export default class NamespaceHelpers {
             // Glob return path separator unix style, on windows system must be converted
             csProjFullPath = path.normalize(csProjFullPath);
 
-            // Get the namespace from csproj: csporj name OR xml element
+            // Get the namespace from csproj: csproj name OR xml element
             let csProjNs = await this.getNamespaceFromCsProjAsync(csProjFullPath);
 
             // Calculate subfolders namespace
@@ -99,9 +99,9 @@ export default class NamespaceHelpers {
         const csProjArray = csProjFullPath.split(path.sep);
 
         // Get the folders difference between the csproj and file
-        // return with space between for sanitization
         const subfoldersNamespace = fileArray.filter((v) => csProjArray.indexOf(v) === -1);
 
+        // Sanitize & join
         const sanitized = subfoldersNamespace.map((p) => this.sanitize(p));
 
         return sanitized.join('.');
@@ -120,7 +120,7 @@ export default class NamespaceHelpers {
         // Compose the namespace
         if (csProjNamespace.isFromFilePath) {
             const cs = this.sanitize(csProjNamespace.value);
-            return `${cs}.${subFoldersNamespace}`;
+            return subFoldersNamespace === '' ? cs : `${cs}.${subFoldersNamespace}`;
         } else {
             return `${csProjNamespace.value}.${subFoldersNamespace}`;
         }
