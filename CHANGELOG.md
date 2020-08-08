@@ -1,5 +1,9 @@
 # DotNet Core Add Changelog
 
+## [0.1.1] - 2020-08-08
+
+- Fixed wrong namespace calc when .csproj and .cs are on the same folder
+
 ## [0.1.0] - 2020-07-05
 
 - Added select custom template function

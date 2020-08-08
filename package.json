@@ -4,7 +4,7 @@
     "description": "Add commands for creating Class and Interface on C#",
     "publisher": "solidcube",
     "license": "GPL-3.0-or-later",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "engines": {
         "vscode": "^1.45.0"
     },
