@@ -10,6 +10,10 @@ Whit this extension you can
 - Add new interface on existing file
 - Add new custom template, selected from a custom folder, on existing file
 
+### Demo
+
+![Demo](img/demo.gif)
+
 ## Instructions
 
 Create new file press F1 and select
@@ -35,10 +39,6 @@ Create new file press F1 and select
   You must configure the `dotNetCoreAdd.templateFolderPath` where engine search for the templates
 
 The command grab the file name as the class/interface name
-
-### Demo
-
-![Demo](img/demo.gif)
 
 ## Extension Settings
 

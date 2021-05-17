@@ -14,6 +14,23 @@ describe('Namespace from csproj file name', () => {
     });
 
     describe('With standard csproj fileName', () => {
+
+        test('Should return correct namespace with repeated folder name', async () => {
+            const csproj = 'd:\\developz\\customer\\domain\\customer.portal.csproj';
+            const fileName = 'd:\\developz\\customer\\domain\\controllers\\domain\\customer\\foo.cs';
+
+            const ifile: IFilesHelpers = {
+                findFullPathAsync: jest.fn(() => {
+                    return Promise.resolve(csproj);
+                }),
+            };
+
+            var fh = new NamespaceHelpers(ifile, icsproj);
+
+            const result = await fh.getNamespaceFromFileAsync(fileName);
+            expect(result).toBe('customer.portal.controllers.domain.customer');
+        });
+
         test('Should return correct namespace with single folder', async () => {
             const csproj = 'd:\\developz\\customer\\customer.portal.csproj';
             const fileName = 'd:\\developz\\customer\\controllers\\foo.cs';

@@ -99,7 +99,7 @@ export default class NamespaceHelpers {
         const csProjArray = csProjFullPath.split(path.sep);
 
         // Get the folders difference between the csproj and file
-        const subfoldersNamespace = fileArray.filter((v) => csProjArray.indexOf(v) === -1);
+        const subfoldersNamespace = this.foldersDiff(fileArray, csProjArray);
 
         // Sanitize & join
         const sanitized = subfoldersNamespace.map((p) => this.sanitize(p));
@@ -135,7 +135,21 @@ export default class NamespaceHelpers {
      * @memberof NamespaceHelpers
      */
     private sanitize(value: string): string {
-        var str2 = value.replace(/[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]/gi, "_");
-        return str2.replace(/ /g, "_");
+        var str2 = value.replace(/[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]/gi, '_');
+        return str2.replace(/ /g, '_');
+    }
+
+    /**
+     * Return the differences between the csproj and file
+     *
+     * @private
+     * @param {string[]} fileArray The splitted path of file
+     * @param {string[]} csProjArray The splitted path of csproj
+     * @returns {string[]} The differnces
+     * @memberof NamespaceHelpers
+     */
+    private foldersDiff(fileArray: string[], csProjArray: string[]): string[] {
+        // return fileArray.filter((v) => csProjArray.indexOf(v) === -1);
+        return fileArray.slice(csProjArray.length -1);
     }
 }

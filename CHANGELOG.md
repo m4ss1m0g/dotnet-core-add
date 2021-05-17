@@ -1,5 +1,10 @@
 # DotNet Core Add Changelog
 
+## [0.1.2] - 2021-05-17
+
+- Fixed wrong namespace when there are multiple folders with the same name
+- Moved to `npm` package manager
+
 ## [0.1.1] - 2020-08-08
 
 - Fixed wrong namespace calc when .csproj and .cs are on the same folder
