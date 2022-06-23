@@ -74,7 +74,13 @@ export default class AddTemplate extends AddItemFactory {
                 }
             }
         } catch (error) {
-            vscode.window.showErrorMessage(error.message);
+            if (error instanceof Error) {
+                vscode.window.showErrorMessage(error.message);
+            } else if (typeof error === 'string') {
+                vscode.window.showErrorMessage(error);
+            } else {
+                vscode.window.showErrorMessage('unexpected error');
+            }
         }
 
         return false;

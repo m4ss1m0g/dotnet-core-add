@@ -1,5 +1,11 @@
 # DotNet Core Add Changelog
 
+## [0.1.3] - 2022-06-23
+
+- Updated npm packages
+- Moved from yarn to npm packages manager
+- Added License
+
 ## [0.1.2] - 2021-05-17
 
 - Fixed wrong namespace when there are multiple folders with the same name
