@@ -1,5 +1,9 @@
 # DotNet Core Add Changelog
 
+## [0.1.4] - 2023-01-19
+
+- Updated package.json
+
 ## [0.1.3] - 2022-06-23
 
 - Updated npm packages
