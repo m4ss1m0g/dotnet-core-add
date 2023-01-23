@@ -1,7 +1,7 @@
-import * as vscode from "vscode";
-import * as path from "path";
-import Configuration from "../config/configuration";
-import NamespaceHelpers from "../namespace-helpers";
+import * as vscode from 'vscode';
+import * as path from 'path';
+import Configuration from '../config/configuration';
+import NamespaceHelpers from '../namespace-helpers';
 import FileHelpers from '../file-helpers';
 import CsProjFile from '../csproj-file';
 
@@ -15,7 +15,6 @@ import CsProjFile from '../csproj-file';
  */
 export default abstract class AddItemFactory {
     public async runAsync(): Promise<void> {
-
         const editor = vscode.window.activeTextEditor;
 
         // If the file is saved
@@ -32,8 +31,7 @@ export default abstract class AddItemFactory {
 
             // Calculate the namespace, looking for csproj
             var fh = new NamespaceHelpers(new FileHelpers(), new CsProjFile());
-            let namespace =
-                (await fh.getNamespaceFromFileAsync(fileName)) || "notfound";
+            let namespace = (await fh.getNamespaceFromFileAsync(fileName)) || 'notfound';
 
             // Generate class code
             const content = this.generateCode(namespace, itemName);
@@ -41,7 +39,7 @@ export default abstract class AddItemFactory {
             // Write to previus saved file
             await this.writeToFileAsync(editor.document.uri, content);
         } else {
-            vscode.window.showInformationMessage("You must create a new file first");
+            vscode.window.showInformationMessage('You must create a new file first');
         }
     }
 
@@ -54,10 +52,7 @@ export default abstract class AddItemFactory {
      * @returns {Promise<void>} Nothing
      * @memberof AddClass
      */
-    private async writeToFileAsync(
-        fileName: vscode.Uri,
-        content: Buffer
-    ): Promise<void> {
+    private async writeToFileAsync(fileName: vscode.Uri, content: Buffer): Promise<void> {
         // Save to file
         await vscode.workspace.fs.writeFile(fileName, content);
         var doc = await vscode.workspace.openTextDocument(fileName);
@@ -73,8 +68,16 @@ export default abstract class AddItemFactory {
      * @returns {Buffer} The buffer data with class code
      * @memberof AddClass
      */
-    protected abstract generateCode(
-        namespace: string,
-        className: string
-    ): Buffer;
+    protected abstract generateCode(namespace: string, className: string): Buffer;
+
+    /**
+     * Return the current configuration
+     *
+     * @protected
+     * @returns Configuration
+     * @memberof AddClass
+     */
+    protected get getConfiguration(): Configuration {
+        return new Configuration();
+    }
 }

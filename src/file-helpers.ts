@@ -2,6 +2,7 @@ import * as glob from "glob";
 import * as path from "path";
 import IFilesHelpers from './interfaces/ifiles-helpers';
 
+import normalize = require("normalize-path");
 
 export default class FileHelpers implements IFilesHelpers {
     
@@ -19,7 +20,7 @@ export default class FileHelpers implements IFilesHelpers {
         filePath: string,
         fileExtension: string
     ): Promise<string | undefined> {
-        const searchTerm = `${filePath}${path.sep}*.${fileExtension}`;
+        const searchTerm = normalize(`${filePath}${path.sep}*.${fileExtension}`);
         return new Promise((resolve, reject) => {
             glob(searchTerm, (err, matches) => {
                 if (matches.length > 0) {

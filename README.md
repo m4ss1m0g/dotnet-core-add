@@ -46,6 +46,7 @@ This extension contributes the following settings:
 
 - `dotNetCoreAdd.alwaysCapitalizeFirstLetter`: enable/disable the capitalization of first letter
 - `dotNetCoreAdd.templateFolderPath`: the templates folder path where `Add Custom Template` command read for template files
+- `dotNetCoreAdd.useScopedNamespaces`: enable/disable the use of scoped namespace feature on csharp 10
 
 ## Known Issues
 
