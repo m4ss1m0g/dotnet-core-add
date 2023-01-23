@@ -1,5 +1,9 @@
 # DotNet Core Add Changelog
 
+## [0.2.0] - 2023-01-23
+
+- Add file namespace support (see DotNetCore settings _useScopedNamespaces_)
+
 ## [0.1.4] - 2023-01-19
 
 - Updated package.json

@@ -17,4 +17,8 @@ export default class Configuration {
     public get templateFolderPath(): string {
         return this.config.get<string>('templateFolderPath') || '';
     }
+
+    public get useScopedNamespaces(): boolean {
+        return this.config.get<boolean>('useScopedNamespaces') || false;
+    }
 }
